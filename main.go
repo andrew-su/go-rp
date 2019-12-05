@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -32,13 +33,22 @@ func printRequest(w http.ResponseWriter, r *http.Request) {
 
 	// If this is a POST, add post data
 	if r.Method == "POST" {
-		if err := r.ParseForm(); err != nil {
-			output = append(output, fmt.Sprintf("\nError: %s", err.Error()))
+		output = append(output, "\n")
+
+		if body, err := ioutil.ReadAll(r.Body); err != nil {
+			output = append(output, err.Error())
 		} else {
-			output = append(output, "\n")
-			output = append(output, r.Form.Encode())
+			output = append(output, string(body))
 		}
+		// if err := r.ParseForm(); err != nil {
+		// 	output = append(output, fmt.Sprintf("\nError: %s", err.Error()))
+		// } else {
+		// 	output = append(output, "\n")
+		// 	output = append(output, r.Form.Encode())
+		// }
 	}
 
-	fmt.Fprintf(w, strings.Join(output, "\n"))
+	result := strings.Join(output, "\n")
+	fmt.Println(fmt.Sprintf("%s\n\n", result))
+	fmt.Fprintf(w, result)
 }

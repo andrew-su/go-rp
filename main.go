@@ -4,12 +4,16 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
 
 func main() {
+	log.Println("Starting application")
+
 	port := flag.Int("port", 8080, "port to listen on")
+
 	flag.Parse()
 
 	http.HandleFunc("/", printRequest)
@@ -49,6 +53,6 @@ func printRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := strings.Join(output, "\n")
-	fmt.Println(fmt.Sprintf("%s\n\n", result))
+	log.Println(fmt.Sprintf("Received request:\n%s\n", result))
 	fmt.Fprintf(w, result)
 }

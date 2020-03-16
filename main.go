@@ -44,15 +44,9 @@ func printRequest(w http.ResponseWriter, r *http.Request) {
 		} else {
 			output = append(output, string(body))
 		}
-		// if err := r.ParseForm(); err != nil {
-		// 	output = append(output, fmt.Sprintf("\nError: %s", err.Error()))
-		// } else {
-		// 	output = append(output, "\n")
-		// 	output = append(output, r.Form.Encode())
-		// }
 	}
 
-	result := strings.Join(output, "\n")
+	result := strings.Join(output, "\n") + "\n"
 	log.Println(fmt.Sprintf("Received request:\n%s\n", result))
 	fmt.Fprintf(w, result)
 }

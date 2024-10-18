@@ -1,5 +1,5 @@
 # Build container
-FROM golang:latest as build
+FROM golang:latest AS build
 
 COPY main.go main.go
 RUN GOOS=linux GOARCH=amd64 go build -o /app main.go
